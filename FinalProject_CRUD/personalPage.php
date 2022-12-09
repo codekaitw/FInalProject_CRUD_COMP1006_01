@@ -43,13 +43,20 @@
             'modified'     => '',
             'message_id'   => $_POST['edit_message_id']
         );
-        var_dump($edit_msgData);
-        $whereSetId = 'message_id';
-        $update = $db->updateData($tableName_messages, $edit_msgData, $whereSetId);
-        var_dump($update);
+        $whereSetIdName = 'message_id';
+        $update = $db->updateData($tableName_messages, $edit_msgData, $whereSetIdName);
 	    $update ? header("Location:personalPage.php?editMsg=Edit Successfully") :
 		    header("Location:personalPage.php?editMsg=Edit Failed");
     }
+
+    // delete: delete message
+    if(isset($_GET['DeleteId'])){
+	    $whereDeleteIdName = 'message_id';
+        $delete = $db->deleteDateById($tableName_messages, $_GET['DeleteId'], $whereDeleteIdName);
+        $delete ? header("Location:personalPage.php?deleteMsg=Delete Successfully") :
+	        header("Location:personalPage.php?deleteMsg=Delete Failed");
+    }
+
 
     // show Other Worlds Section base on different page(home or other user)
     if(isset($_GET['otherUserId'])){
@@ -174,7 +181,7 @@
                                     </a>
                                     <div class="dropdown-menu w-auto" aria-labelledby="navbarDropdownMenuLink">
                                         <a class="dropdown-item" data-toggle="modal" data-target="#EditMessageModal">Edit</a>
-                                        <a class="dropdown-item" href="#">Delete</a>
+                                        <a class="dropdown-item" href="personalPage.php?DeleteId=<?php echo $value['message_id'] ?>" onclick="return confirm('Are you sure you want to delete this message');">Delete</a>
                                     </div>
                                     <!-- Edit Message modal Pop Up-->
                                     <div class="modal fade" id="EditMessageModal" tabindex="-1" role="dialog" aria-labelledby="EditMessageModal" aria-hidden="true">
@@ -208,27 +215,6 @@
                                         <p>
                                             <?php echo $value['message_text']; ?>
                                         </p>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                        Reply
-                                    </button>
-                                    <div class="collapse mt-3" id="collapseExample">
-                                        <div class="card card-body">
-                                            <form class="form-group">
-                                                <div class="form-group">
-                                                    <label for="replyTextArea">Any comment</label><textarea class="form-control" id="replyTextArea" rows="3" placeholder="Reply here..." name="reply_text"></textarea>
-                                                </div>
-                                            </form>
-                                            <div class="card-footer">
-                                                <div class="text-center">
-                                                    <button class="btn btn-primary">
-                                                        Reply
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -160,9 +160,14 @@ class Database
 	}
 
 	// Delete Data via ID
-	public function deleteDateById($tableName, $id){
+	public function deleteDateById($tableName, $id, $whereDeleteIdName){
 		$sql = 'DELETE FROM ' . $tableName;
-
+		$sql .= ' WHERE ';
+		$sql .= $whereDeleteIdName;
+		// positional placeholder
+		$sql .= '=?';
+		$stmt = $this->db->prepare($sql);
+		return $stmt->execute([$id]);
 	}
 
 	// check signup data whether valid
