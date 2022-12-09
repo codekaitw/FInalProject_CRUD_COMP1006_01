@@ -1,5 +1,9 @@
 <?php
-	require_once './reuse_file/header.php';
+    // add values of variables of title and description
+    $title = "Sign Up Page";
+    $description = "Register page";
+
+    require_once './reuse_file/header.php';
     require_once './reuse_file/Database.php';
 
     // signup form post
@@ -21,10 +25,10 @@
         $confirmPassword = hash('sha512', $_POST['signup_confirmPassword']);
 
         // check input whether error
-        $signupInputIsValid =  $db->inputErrorCheck_SighupData($signUpData, $confirmPassword);
+        $signupInputIsValid =  $db->inputErrorCheck_SignupUpdateData($signUpData, $confirmPassword);
         if(is_bool($signupInputIsValid) && $signupInputIsValid){
             // check username and email are unique in database
-            $signupDataIsUnique = $db->checkSignupDataValid($table_admins, $signUpData);
+            $signupDataIsUnique = $db->checkSignupUpdateDataValid($table_admins, $signUpData);
             if(is_bool($signupDataIsUnique) && $signupDataIsUnique){
                 // insert data
                 $insert = $db->insertData($table_admins, $signUpData);

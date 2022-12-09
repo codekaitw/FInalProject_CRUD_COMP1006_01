@@ -171,7 +171,7 @@ class Database
 	}
 
 	// check signup data whether valid
-	public function inputErrorCheck_SighupData($data, $confirmPassword){
+	public function inputErrorCheck_SignupUpdateData($data, $confirmPassword){
 		if(!empty($data) && is_array($data)){
 			if(array_key_exists('username', $data) && empty($data['username'])){
 				return 'Username is required';
@@ -202,7 +202,8 @@ class Database
 	}
 
 	// check input signup data whether exits in database
-	public function checkSignupDataValid($tableName, $data){
+	public function checkSignupUpdateDataValid($tableName, $data, $conditions = array())
+	{
 		$sql = 'SELECT * FROM ' . $tableName;
 
 		// query: find to check username
@@ -210,8 +211,11 @@ class Database
 		$sql .= ' WHERE `username` = ' . "'" . $data['username'] . "'";
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
+		// update check
+		if(array_key_exists('updateUser', $conditions) && $stmt->rowCount() == 1){
+			return true;
 		// duplicate username
-		if($stmt->rowCount() > 0){
+		}elseif($stmt->rowCount() > 0){
 			return 'Username is not available! Try another one!';
 		}
 
@@ -243,7 +247,7 @@ class Database
 			foreach ($stmt as $row){
 				// take user's id from database and store it in a session variable
 				$_SESSION['user_id'] = $row['user_id'];
-				header('Location:index.php');
+				header('Location:personalPage.php');
 			}
 		} else{
 			header("Location:login.php?checkErrorMsg=Username or Password Incorrect!!!");

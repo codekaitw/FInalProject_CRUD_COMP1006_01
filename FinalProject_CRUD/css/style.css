@@ -104,8 +104,6 @@ Header
 login php
 */
 .login-custom {
-    margin-top: 8vh;
-
     /* fallback for old browsers */
     background: #6a11cb;
 
@@ -136,7 +134,6 @@ footer div:nth-child(2) {
 signup
 */
 .signup-custom{
-    margin-top: 8vh;
     background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
     background-size: cover;
     background-repeat: no-repeat;
@@ -181,7 +178,7 @@ signup
 }
 
 input:focus{
-    outline: 0 0 0 0  !important;
+    outline: 0 0 0 0 !important;
     box-shadow: 0 0 0 0 !important;
 
 }

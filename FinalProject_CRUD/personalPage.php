@@ -3,8 +3,8 @@
     // In this session, it will limit the amount of time users are allowed to view this page
 
     // add values of variables of title and description
-    $title = "A base profile homepage";
-    $description = "Assignment 3 index page";
+    $title = "User Page";
+    $description = "User Page to CRUD content";
 
     require_once './reuse_file/header.php';
     require_once './reuse_file/Database.php';
@@ -15,7 +15,7 @@
             $db = new Database();
         }
     }else{
-        header("Location:index.php?LogoutMsg=Time Out! Please Log In.");
+        header("Location:index.php?LogoutMsg=Please Log In.");
     }
 
     // table name: users
@@ -24,6 +24,9 @@
     // table name: messages
     $tableName_messages = 'messages';
 
+    if(isset($_GET['otherUserId'])){
+        $_SESSION['currentUserPage'] = (int)$_GET['otherUserId'];
+    }
     // insert: add new message
     if(isset($_POST['msg_text'])){
         $msgData = array(
@@ -37,26 +40,25 @@
     }
 
     // update: edit message
-    if(isset($_POST['edit_msg_text']) && isset($_POST['edit_message_id'])){
+    if (isset($_POST['edit_msg_text']) && isset($_POST['edit_message_id'])) {
         $edit_msgData = array(
             'message_text' => $_POST['edit_msg_text'],
-            'modified'     => '',
-            'message_id'   => $_POST['edit_message_id']
+            'modified' => '',
+            'message_id' => $_POST['edit_message_id']
         );
         $whereSetIdName = 'message_id';
         $update = $db->updateData($tableName_messages, $edit_msgData, $whereSetIdName);
-	    $update ? header("Location:personalPage.php?editMsg=Edit Successfully") :
-		    header("Location:personalPage.php?editMsg=Edit Failed");
+        $update ? header("Location:personalPage.php?editMsg=Edit Successfully") :
+            header("Location:personalPage.php?editMsg=Edit Failed");
     }
 
     // delete: delete message
-    if(isset($_GET['DeleteId'])){
-	    $whereDeleteIdName = 'message_id';
+    if (isset($_GET['DeleteId'])) {
+        $whereDeleteIdName = 'message_id';
         $delete = $db->deleteDateById($tableName_messages, $_GET['DeleteId'], $whereDeleteIdName);
         $delete ? header("Location:personalPage.php?deleteMsg=Delete Successfully") :
-	        header("Location:personalPage.php?deleteMsg=Delete Failed");
+            header("Location:personalPage.php?deleteMsg=Delete Failed");
     }
-
 
     // show Other Worlds Section base on different page(home or other user)
     if(isset($_GET['otherUserId'])){
@@ -71,7 +73,6 @@
 
 	    $condition_messages_uid = array('where' => array('uid' => $_SESSION['user_id']));
     }
-
         // using single to get rid of index in order to use without foreach
 	    $userInfo_single = $db->displayData($tableName_users, $condition_user_id_single);
         // all user data
@@ -87,13 +88,18 @@
 	    echo '</div>';
     }elseif(isset($_GET['insertMsg'])){
 	    echo '<div class="alert alert-info m-auto text-center" role="alert">';
-	    echo $_GET['LoginMsg'];
+	    echo $_GET['insertMsg'];
 	    echo '</div>';
-    }elseif(isset($_GET['editMsg'])){
+    }elseif(isset($_GET['editMsg']) && isset($_GET['otherUserId'])){
 	    echo '<div class="alert alert-info m-auto text-center" role="alert">';
 	    echo $_GET['editMsg'];
 	    echo '</div>';
+    }elseif(isset($_GET['deleteMsg']) && isset($_GET['otherUserId'])){
+	    echo '<div class="alert alert-info m-auto text-center" role="alert">';
+	    echo $_GET['deleteMsg'];
+	    echo '</div>';
     }
+
 ?>
 <section class="container">
 	<h1><?php echo $userInfo_single['username'] . ' World'; ?></h1>
@@ -164,7 +170,7 @@
                                     <!-- Hidden message id -->
                                     <input type="hidden" name="message_id" value="<?php echo $value['message_id']; ?>">
                                     <div class="col-2 w-auto">
-                                        <img class="rounded-circle" width="40" src="iii" alt="img">
+                                        <img class="rounded-circle" width="40" src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" alt="img">
                                     </div>
                                     <div class="col align-self-center">
                                         <?php echo $userInfo_single['username']; ?>
@@ -180,8 +186,31 @@
                                         More
                                     </a>
                                     <div class="dropdown-menu w-auto" aria-labelledby="navbarDropdownMenuLink">
-                                        <a class="dropdown-item" data-toggle="modal" data-target="#EditMessageModal">Edit</a>
-                                        <a class="dropdown-item" href="personalPage.php?DeleteId=<?php echo $value['message_id'] ?>" onclick="return confirm('Are you sure you want to delete this message');">Delete</a>
+                                        <a class="dropdown-item"
+                                        <?php
+                                            // check user be able to edit
+                                            if($_SESSION['user_id'] !== $_SESSION['currentUserPage']){
+                                                echo " href='personalPage.php?otherUserId=" . $_SESSION['currentUserPage'] ."&editMsg=No authority to edit'>";
+                                            } else{
+                                                echo 'data-toggle="modal" data-target="#EditMessageModal">';
+                                            }
+                                        ?>Edit</a>
+                                        <a class="dropdown-item"
+                                            <?php
+                                                // check user be able to delete
+	                                            if($_SESSION['user_id'] !== $_SESSION['currentUserPage']){
+                                                    echo " href='personalPage.php?otherUserId=". $_SESSION['currentUserPage'] ."&deleteMsg=No authority to delete'";
+                                                    echo '>';
+                                                } else{
+                                                    echo "href='personalPage.php?DeleteId='" . $value['message_id'];
+                                                    echo "'";
+                                                    echo ' onclick="';
+                                                    echo "return ";
+                                                    echo "confirm('Are you sure you want to delete this message')";
+                                                    echo '"';
+                                                    echo '>';
+                                                }
+                                        ?>Delete</a>
                                     </div>
                                     <!-- Edit Message modal Pop Up-->
                                     <div class="modal fade" id="EditMessageModal" tabindex="-1" role="dialog" aria-labelledby="EditMessageModal" aria-hidden="true">
@@ -258,7 +287,7 @@
                             <div class="container list-group-item">
                                 <a class="d-flex flex-wrap" href="<?php echo "personalPage.php?otherUserId=" . $value['user_id'] ?>">
                                     <img class="rounded-circle" width="40
-" src="iii" alt="img">
+" src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" alt="img">
                                     <div class="p-2"><?php echo $value['username']; ?></div>
                                 </a>
                             </div>

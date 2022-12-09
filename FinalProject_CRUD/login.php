@@ -1,8 +1,16 @@
 <?php session_start();
     // access the existing session created automatically by the server
-	require_once './reuse_file/header.php';
+    // add values of variables of title and description
+    $title = "Login page";
+    $description = "Login page";
+
+    require_once './reuse_file/header.php';
     require_once './reuse_file/Database.php';
 
+    // check if already login
+    if(isset($_SESSION['user_id'])){
+        header("Location:personalPage.php?LoginMsg=You already logged in! Please log out first!");
+    }
     // login form post
     if(isset($_POST['login']) && $_POST['login'] == 'Login'){
         if(!isset($db)){
@@ -21,13 +29,9 @@
         $db->checkLoginDataValid($table_admins, $loginData);
     }
 
-    // check if already login
-    if(isset($_SESSION['user_id'])){
-        header("Location:personalPage.php?LoginMsg=You already logged in! Please log out first!");
-    }
 ?>
     <section class="login-custom">
-        <div class="container py-5 h-100">
+        <div class="container py-5">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div class="card bg-dark text-white" id="login-card">
