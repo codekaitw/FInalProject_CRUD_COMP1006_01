@@ -16,8 +16,8 @@
 
     <!-- Copyright -->
     <div class="text-center p-3">
-        © 2020 Copyright:
-        <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+        © 2022 Copyright:
+        <a class="text-white" href="https://github.com/codekaitw/FInalProject_CRUD_COMP1006_01">My GitHub</a>
     </div>
     <!-- Copyright -->
 </footer>

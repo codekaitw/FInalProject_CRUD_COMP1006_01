@@ -24,8 +24,11 @@
     // table name: messages
     $tableName_messages = 'messages';
 
+    // check page is in home page to allow user to update and delete
     if(isset($_GET['otherUserId'])){
         $_SESSION['currentUserPage'] = (int)$_GET['otherUserId'];
+    }else{
+	    $_SESSION['currentUserPage'] = $_SESSION['user_id'];
     }
     // insert: add new message
     if(isset($_POST['msg_text'])){
@@ -198,17 +201,18 @@
                                         <a class="dropdown-item"
                                             <?php
                                                 // check user be able to delete
-	                                            if($_SESSION['user_id'] !== $_SESSION['currentUserPage']){
-                                                    echo " href='personalPage.php?otherUserId=". $_SESSION['currentUserPage'] ."&deleteMsg=No authority to delete'";
-                                                    echo '>';
+	                                            if($_SESSION['user_id'] == $_SESSION['currentUserPage']){
+		                                            echo "href='personalPage.php?DeleteId=";
+		                                            echo $value['message_id'];
+		                                            echo "'";
+		                                            echo ' onclick="';
+		                                            echo "return ";
+		                                            echo "confirm('Are you sure you want to delete this message')";
+		                                            echo '"';
+		                                            echo '>';
                                                 } else{
-                                                    echo "href='personalPage.php?DeleteId='" . $value['message_id'];
-                                                    echo "'";
-                                                    echo ' onclick="';
-                                                    echo "return ";
-                                                    echo "confirm('Are you sure you want to delete this message')";
-                                                    echo '"';
-                                                    echo '>';
+		                                            echo " href='personalPage.php?otherUserId=". $_SESSION['currentUserPage'] ."&deleteMsg=No authority to delete'";
+		                                            echo '>';
                                                 }
                                         ?>Delete</a>
                                     </div>

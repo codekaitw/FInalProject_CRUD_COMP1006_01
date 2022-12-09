@@ -57,7 +57,7 @@
                             <a class="nav-link" href="personalPage.php">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="all_Users.php">Log In</a>
+                            <a class="nav-link" href="all_Users.php">All User</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="index.php?LogoutMsg=Log Out Successfully">Log Out</a>
