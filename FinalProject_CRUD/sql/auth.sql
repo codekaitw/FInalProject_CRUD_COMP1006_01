@@ -15,6 +15,6 @@ CREATE TABLE messages(
     created varchar(100),
     modified varchar(100),
     deleted varchar(100),
-    FOREIGN KEY (uid) REFERENCES users(user_id)
+    FOREIGN KEY (uid) REFERENCES users(user_id) ON DELETE CASCADE
 )
     ENGINE = InnoDB default charset = utf8mb4;

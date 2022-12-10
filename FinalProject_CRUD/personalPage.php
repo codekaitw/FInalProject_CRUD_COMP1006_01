@@ -104,205 +104,209 @@
     }
 
 ?>
-<section class="container">
-	<h1><?php echo $userInfo_single['username'] . ' World'; ?></h1>
-</section>
-<!-- User Info and User Message -->
-<section class="container">
-    <div class="row">
-        <!-- User Info section-->
-        <section class="userInfoSection col-sm-8">
-            <div class="row flex-nowrap">
-                <div class="world-user-info card d-flex flex-row">
-                    <div class="p-2">
-                        <img class="rounded-circle" src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" alt="img" width="40">
-                    </div>
-                    <div class="align-self-center flex-grow-1"><?php echo $userInfo_single['username']; ?></div>
-                    <?php
-                        // this content(Add New Msg) only will display on home page
-                        if(!isset($_GET['otherUserId'])){
-                    ?>
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary align-self-center" data-toggle="modal" data-target="#AddMessageModal">
-                        New Msg
-                    </button>
+<section class="personal_page_section">
+    <section class="container">
+        <h1><?php echo $userInfo_single['username'] . ' World'; ?></h1>
+    </section>
+    <!-- User Info and User Message -->
+    <section class="container">
+        <div class="row">
+            <!-- User Info section-->
+            <section class="userInfoSection col-sm-8">
+                <div class="row flex-nowrap">
+                    <div class="world-user-info card d-flex flex-row">
+                        <div class="p-2">
+                            <img class="rounded-circle" src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" alt="img" width="40">
+                        </div>
+                        <div class="align-self-center flex-grow-1"><?php echo $userInfo_single['username']; ?></div>
+                        <?php
+                            // this content(Add New Msg) only will display on home page
+                            if(!isset($_GET['otherUserId'])){
+                        ?>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary align-self-center" data-toggle="modal" data-target="#AddMessageModal">
+                            New Msg
+                        </button>
 
-                    <!-- Modal Add Message Pop up -->
-                    <div class="modal fade" id="AddMessageModal" tabindex="-1" role="dialog" aria-labelledby="AddMessageModal" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Show Them Who You Are</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="personalPage.php" method="post" class="form-group" id="post_msg_form">
-                                        <div class="form-group">
-                                            <label for="msgTextArea">What do you think now</label><textarea class="form-control" id="msgTextArea" rows="3" placeholder="Add something new here..." name="msg_text"></textarea>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button class="btn btn-primary" type="submit" value="postMsg" name="Submit" onclick="post_msg_text()">Post</button>
+                        <!-- Modal Add Message Pop up -->
+                        <div class="modal fade" id="AddMessageModal" tabindex="-1" role="dialog" aria-labelledby="AddMessageModal" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Show Them Who You Are</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="personalPage.php" method="post" class="form-group" id="post_msg_form">
+                                            <div class="form-group">
+                                                <label for="msgTextArea">What do you think now</label><textarea class="form-control" id="msgTextArea" rows="3" placeholder="Add something new here..." name="msg_text"></textarea>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button class="btn btn-primary" type="submit" value="postMsg" name="Submit" onclick="post_msg_text()">Post</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                            <?php } ?>
                     </div>
-                        <?php } ?>
                 </div>
-            </div>
-            <!-- Message of user created section-->
-            <section class="MessageSection">
-                <div class="row">
-                    <?php
-                    // if user have message info($userMsgInfo) print out all message
-                    if(isset($userMsgInfo) && !is_array($userMsgInfo)) {
-                        echo '<div class="alert alert-info mt-2" role="alert">';
-                        echo 'No Content!!! Add New One!';
-                        echo '</div>';
-                    } else {
-                        // reverse in order to show msg from new to old
-                        $reverseArray_userMsgInfo = array_reverse($userMsgInfo);
-                        foreach ($reverseArray_userMsgInfo as $value){
-                            ?>
-                            <div class="card mt-3">
-                                <div class="row card-header">
-                                    <!-- Hidden message id -->
-                                    <input type="hidden" name="message_id" value="<?php echo $value['message_id']; ?>">
-                                    <div class="col-2 w-auto">
-                                        <img class="rounded-circle" width="40" src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" alt="img">
-                                    </div>
-                                    <div class="col align-self-center">
-                                        <?php echo $userInfo_single['username']; ?>
-                                    </div>
-                                    <div class="col align-self-center">
-                                        Last Update:
-                                        <?php
-                                        if(isset($value['modified'])) echo $value['modified'];
-                                        else echo $value['created'];
-                                        ?>
-                                    </div>
-                                    <a class="nav-link dropdown-toggle align-self-center col-auto" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        More
-                                    </a>
-                                    <div class="dropdown-menu w-auto" aria-labelledby="navbarDropdownMenuLink">
-                                        <a class="dropdown-item"
-                                        <?php
-                                            // check user be able to edit
-                                            if($_SESSION['user_id'] !== $_SESSION['currentUserPage']){
-                                                echo " href='personalPage.php?otherUserId=" . $_SESSION['currentUserPage'] ."&editMsg=No authority to edit'>";
-                                            } else{
-                                                echo 'data-toggle="modal" data-target="#EditMessageModal">';
-                                            }
-                                        ?>Edit</a>
-                                        <a class="dropdown-item"
+                <!-- Message of user created section-->
+                <section class="MessageSection">
+                    <div class="row">
+                        <?php
+                        // if user have message info($userMsgInfo) print out all message
+                        if(isset($userMsgInfo) && !is_array($userMsgInfo)) {
+                            echo '<div class="alert alert-info mt-2" role="alert">';
+                            echo 'No Content!!! Add New One!';
+                            echo '</div>';
+                        } else {
+                            // reverse in order to show msg from new to old
+                            $reverseArray_userMsgInfo = array_reverse($userMsgInfo);
+                            foreach ($reverseArray_userMsgInfo as $value){
+                                ?>
+                                <div class="card mt-3">
+                                    <div class="row card-header">
+                                        <!-- Hidden message id -->
+                                        <input type="hidden" name="message_id" value="<?php echo $value['message_id']; ?>">
+                                        <div class="col-2 w-auto">
+                                            <img class="rounded-circle" width="40" src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" alt="img">
+                                        </div>
+                                        <div class="col align-self-center">
+                                            <?php echo $userInfo_single['username']; ?>
+                                        </div>
+                                        <div class="col align-self-center">
+                                            Last Update:
                                             <?php
-                                                // check user be able to delete
-	                                            if($_SESSION['user_id'] == $_SESSION['currentUserPage']){
-		                                            echo "href='personalPage.php?DeleteId=";
-		                                            echo $value['message_id'];
-		                                            echo "'";
-		                                            echo ' onclick="';
-		                                            echo "return ";
-		                                            echo "confirm('Are you sure you want to delete this message')";
-		                                            echo '"';
-		                                            echo '>';
+                                            if(isset($value['modified'])) echo $value['modified'];
+                                            else echo $value['created'];
+                                            ?>
+                                        </div>
+                                        <a class="nav-link dropdown-toggle align-self-center col-auto" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            More
+                                        </a>
+                                        <div class="dropdown-menu w-auto" aria-labelledby="navbarDropdownMenuLink">
+                                            <a class="dropdown-item"
+                                            <?php
+                                                // check user be able to edit
+                                                if($_SESSION['user_id'] !== $_SESSION['currentUserPage']){
+                                                    echo " href='personalPage.php?otherUserId=" . $_SESSION['currentUserPage'] ."&editMsg=No authority to edit'>";
                                                 } else{
-		                                            echo " href='personalPage.php?otherUserId=". $_SESSION['currentUserPage'] ."&deleteMsg=No authority to delete'";
-		                                            echo '>';
+                                                    echo 'data-toggle="modal" data-target="#EditMessageModal">';
                                                 }
-                                        ?>Delete</a>
-                                    </div>
-                                    <!-- Edit Message modal Pop Up-->
-                                    <div class="modal fade" id="EditMessageModal" tabindex="-1" role="dialog" aria-labelledby="EditMessageModal" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Edit Your Message</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="personalPage.php" method="post" class="form-group" id="edit_msg_form">
-                                                        <!-- Hidden message id -->
-                                                        <input type="hidden" name="edit_message_id" value="<?php echo $value['message_id']; ?>">
-                                                        <div class="form-group">
-                                                            <label for="edit_msgTextArea">What do you think now</label><textarea class="form-control" id="edit_msgTextArea" rows="3" name="edit_msg_text"><?php echo $value['message_text']; ?></textarea>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button class="btn btn-primary" type="submit" value="editMsg" name="Submit" onclick="edit_msg_text()">Edit</button>
+                                            ?>Edit</a>
+                                            <a class="dropdown-item"
+                                                <?php
+                                                    // check user be able to delete
+                                                    if($_SESSION['user_id'] == $_SESSION['currentUserPage']){
+                                                        echo "href='personalPage.php?DeleteId=";
+                                                        echo $value['message_id'];
+                                                        echo "'";
+                                                        echo ' onclick="';
+                                                        echo "return ";
+                                                        echo "confirm('Are you sure you want to delete this message')";
+                                                        echo '"';
+                                                        echo '>';
+                                                    } else{
+                                                        echo " href='personalPage.php?otherUserId=". $_SESSION['currentUserPage'] ."&deleteMsg=No authority to delete'";
+                                                        echo '>';
+                                                    }
+                                            ?>Delete</a>
+                                        </div>
+                                        <!-- Edit Message modal Pop Up-->
+                                        <div class="modal fade" id="EditMessageModal" tabindex="-1" role="dialog" aria-labelledby="EditMessageModal" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Edit Your Message</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="personalPage.php" method="post" class="form-group" id="edit_msg_form">
+                                                            <!-- Hidden message id -->
+                                                            <input type="hidden" name="edit_message_id" value="<?php echo $value['message_id']; ?>">
+                                                            <div class="form-group">
+                                                                <label for="edit_msgTextArea">What do you think now</label><textarea class="form-control" id="edit_msgTextArea" rows="3" name="edit_msg_text"><?php echo $value['message_text']; ?></textarea>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button class="btn btn-primary" type="submit" value="editMsg" name="Submit" onclick="edit_msg_text()">Edit</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row cord-body">
-                                    <div class="col m-2">
-                                        <p>
-                                            <?php echo $value['message_text']; ?>
-                                        </p>
+                                    <div class="row cord-body">
+                                        <div class="col m-2">
+                                            <p>
+                                                <?php echo $value['message_text']; ?>
+                                            </p>
+                                        </div>
                                     </div>
+                                </div>
+                                <?php
+                            } // end of foreach
+                        } // end of if statement
+                        ?>
+                    </div>
+                </section>
+            </section>
+            <!-- Other worlds section-->
+            <div class="otherWorldSection col-sm-4">
+                <!-- the title of other user info section -->
+                <div class="text-left">
+                    <h3>Other Worlds</h3>
+                </div>
+                <!-- other user info -->
+                <aside class="container rounded border border-info p-2">
+                    <?php
+                    // no content show message (count == 2 >>> if only contain log in user and current page user)
+                    if(!isset($userInfo)
+                        || count($userInfo) == 1
+                        || (isset($_GET['otherUserId']) && count($userInfo) == 2)
+                        ){
+                        echo '<div class="alert alert-info col-sm-8 m-auto" role="alert">';
+                        echo 'No Other World Now!!!!';
+                        echo '</div>';
+                    } else {
+                        // iterate through the users data except current user base on page
+                        foreach ($userInfo as $value){
+                            // show other worlds on other page(not home user page)
+                            if(isset($_GET['otherUserId'])){
+                                if($_GET['otherUserId'] == $value['user_id']) continue;
+                                if ($_SESSION['user_id'] == $value['user_id']) continue;
+                            } else{
+                                // show other worlds on home user page
+                                if ($_SESSION['user_id'] == $value['user_id']) continue;
+                            }
+                            // close php here in order to foreach(travel) these codes below
+                            // Note: the start and close position will affect the CSS
+                            ?>
+                            <div class="container d-flex flex-column list-group">
+                                <div class="container list-group-item">
+                                    <a class="d-flex flex-wrap" href="<?php echo "personalPage.php?otherUserId=" . $value['user_id'] ?>">
+                                        <img class="rounded-circle" width="40
+    " src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" alt="img">
+                                        <div class="p-2"><?php echo $value['username']; ?></div>
+                                    </a>
                                 </div>
                             </div>
                             <?php
-                        } // end of foreach
-                    } // end of if statement
+                        } // close foreach
+                    } // close if statement
                     ?>
-                </div>
-            </section>
-        </section>
-        <!-- Other worlds section-->
-        <div class="otherWorldSection col-sm-4">
-            <!-- the title of other user info section -->
-            <div class="text-left">
-                <h3>Other Worlds</h3>
+                </aside>
             </div>
-            <!-- other user info -->
-            <aside class="container rounded border border-info p-2">
-			    <?php
-			    // no content show message (count > 2 >>> if only contain log in user and current page user)
-			    if(!isset($userInfo) || count($userInfo) == 2
-				    && isset($_GET['otherUserId'])){
-				    echo '<div class="alert alert-info col-sm-8 m-auto" role="alert">';
-				    echo 'No Other World Now!!!!';
-				    echo '</div>';
-			    } else {
-				    // iterate through the users data except current user base on page
-				    foreach ($userInfo as $value){
-					    // show other worlds on other page(not home user page)
-					    if(isset($_GET['otherUserId'])){
-						    if($_GET['otherUserId'] == $value['user_id']) continue;
-						    if ($_SESSION['user_id'] == $value['user_id']) continue;
-					    } else{
-						    // show other worlds on home user page
-						    if ($_SESSION['user_id'] == $value['user_id']) continue;
-					    }
-					    // close php here in order to foreach(travel) these codes below
-					    // Note: the start and close position will affect the CSS
-					    ?>
-                        <div class="container d-flex flex-column list-group">
-                            <div class="container list-group-item">
-                                <a class="d-flex flex-wrap" href="<?php echo "personalPage.php?otherUserId=" . $value['user_id'] ?>">
-                                    <img class="rounded-circle" width="40
-" src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" alt="img">
-                                    <div class="p-2"><?php echo $value['username']; ?></div>
-                                </a>
-                            </div>
-                        </div>
-					    <?php
-				    } // close foreach
-			    } // close if statement
-			    ?>
-            </aside>
         </div>
-    </div>
+    </section>
 </section>
 <?php
 	require_once './reuse_file/footer.php';

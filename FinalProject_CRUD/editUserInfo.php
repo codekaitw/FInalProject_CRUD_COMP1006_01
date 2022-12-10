@@ -43,8 +43,8 @@ if(isset($_POST['update']) && $_POST['update'] == 'Update'){
 
 		if(is_bool($updateUserDataIsUnique) && $updateUserDataIsUnique){
 			// update data
-            $updatetUserColumn = 'user_id';
-			$update = $db->updateData($table_admins, $updateData, $updatetUserColumn);
+            $updateUserColumn = 'user_id';
+			$update = $db->updateData($table_admins, $updateData, $updateUserColumn);
 			$update ? header("Location:editUserInfo.php?updateMsg=Updated Successfully") :
 				header("Location: editUserInfo.php?updateMsg=Not Updated Successfully");
 		} elseif (is_string($updateUserDataIsUnique)){

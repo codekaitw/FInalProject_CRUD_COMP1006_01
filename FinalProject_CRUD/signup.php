@@ -32,8 +32,8 @@
             if(is_bool($signupDataIsUnique) && $signupDataIsUnique){
                 // insert data
                 $insert = $db->insertData($table_admins, $signUpData);
-                $insert ? header("Location:index.php?insertMsg=Inserted Successfully") :
-                     header("Location: index.php?insertMsg=Not Inserted Successfully");
+                $insert ? header("Location:index.php?insertMsg=Sign Up Successfully") :
+                     header("Location:index.php?insertMsg=Not Sign Up Successfully");
             } elseif (is_string($signupDataIsUnique)){
                 header("Location:signup.php?signupMsg=$signupDataIsUnique");
             }

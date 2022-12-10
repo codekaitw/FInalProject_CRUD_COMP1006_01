@@ -20,6 +20,11 @@
 			// Finally, destroy the session.
 			session_destroy();
 		}
+		if(isset($_GET['insertMsg'])){
+			echo '<div class="alert alert-info m-auto text-center" role="alert">';
+			echo $_GET['insertMsg'];
+			echo '</div>';
+		}
 
         if(isset($_GET['protectMsg'])){
 	        echo '<div class="alert alert-info m-auto text-center" role="alert">';
@@ -29,7 +34,7 @@
 		?>
 		<div class="home-start-container mb-5">
 			<h1>Welcome</h1>
-			<h2>We are xxx xxx xxx</h2>
+			<h2>We Are Here With You</h2>
 			<a href="
                 <?php
                     if(isset($_SESSION['user_id'])) echo "personalPage.php";

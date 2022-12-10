@@ -1,5 +1,5 @@
 <?php
-    require_once './reuse_file/ErrorHandle.php';
+        require_once './reuse_file/ErrorHandle.php';
     // create an object of error handle class if an object doesn't exist
     if(!isset($errorObj)){
         $errorObj = new ErrorHandle();
@@ -11,6 +11,8 @@
         set_error_handler(array($errorObj, $errorFunctionName)
         );
     }
+    $title='Default';
+    $description='Default';
 ?>
 <!doctype html>
 <html lang="en">
@@ -58,6 +60,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="all_Users.php">All User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.php">Log In</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="index.php?LogoutMsg=Log Out Successfully">Log Out</a>

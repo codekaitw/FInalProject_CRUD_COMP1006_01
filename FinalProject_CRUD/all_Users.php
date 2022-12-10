@@ -20,18 +20,31 @@
         header("Location:index.php?protectMsg=Please Log In First");
     }
 
-    if(isset($_GET['DeleteUserId'])){
-        $deleteColumn = 'user_id';
-        $delete = $db->deleteDateById($table_admins, $_GET['DeleteUserId'], $deleteColumn);
-        $delete ? header("Location:all_Users.php?deletedUserMsg=Deleted Successfully") :
-	        header("Location:all_Users.php?deletedUserMsg=Deleted Failed");
+    if(isset($_GET['DeleteUserId'])) {
+	    $deleteColumn = 'user_id';
+	    $deleteUserId = (int)$_GET['DeleteUserId'];
+	    var_dump($deleteUserId);
+	    $delete = $db->deleteDateById($table_admins, $deleteUserId, $deleteColumn);
+	    // if user delete itself account
+	    if ($_SESSION['user_id'] == $deleteUserId && $delete) {
+		    header("Location:index.php?LogoutMsg=You Deleted itself account, please register again");
+	    } else {
+		    $delete ? header("Location:all_Users.php?deletedUserMsg=Deleted Successfully") :
+			    header("Location:all_Users.php?deletedUserMsg=Deleted Failed");
+	    }
     }
 ?>
-
+<?php
+if(isset($_GET['deletedUserMsg'])){
+	echo '<div class="alert alert-info m-auto text-center" role="alert">';
+	echo $_GET['deletedUserMsg'];
+	echo '</div>';
+}
+?>
 <!-- All Users Name section -->
-<section class="container">
+<section class="all_user_section">
 	<ul class="list-group pt-1">
-        <li class="list-group-item">
+        <li class="list-group-item list-group-item-danger">
             <div class="d-flex">
                 <p class="m-auto">User Name</p>
                 <a class="btn btn-warning m-1" href="index.php">Home</a>
@@ -41,7 +54,7 @@
         <?php
             foreach ($usersInfo as $value) {
         ?>
-		<li class="list-group-item list-group-item-info mt-1">
+		<li class="list-group-item list-group-item-warning mt-1">
 			<div class="d-flex">
 				<p class="m-auto"><?php echo $value['username']; ?></p>
 				<a class="btn btn-warning m-1" href="editUserInfo.php?UpdateUserId=<?php echo $value['user_id']; ?>">Update</a>
@@ -51,3 +64,7 @@
         <?php } ?>
 	</ul>
 </section>
+
+<?php
+    require_once './reuse_file/footer.php';
+?>
