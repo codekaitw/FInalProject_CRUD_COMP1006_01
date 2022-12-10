@@ -10,7 +10,6 @@
 	require_once './reuse_file/Database.php';
 
 ?>
-<main>
 	<section id="home-start">
 		<?php
 		if(isset($_GET['LogoutMsg'])){
@@ -33,7 +32,7 @@
         }
 		?>
 		<div class="home-start-container mb-5">
-			<h1>Welcome</h1>
+			<h1>Welcome PHP Message Board</h1>
 			<h2>We Are Here With You</h2>
 			<a href="
                 <?php
@@ -43,7 +42,6 @@
             " class="btn-get-started">Get Start</a>
 		</div>
 	</section>
-</main>
 
 <?php
     require_once './reuse_file/footer.php';

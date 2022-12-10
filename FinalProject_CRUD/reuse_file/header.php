@@ -49,7 +49,9 @@
     <body>
         <header class="fixed-top">
             <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-                <a class="navbar-brand" href="index.php">PHP Board</a>
+                <a class="navbar-brand" href="#">
+                    <img class="p-1" src="./img/logo.png" width="70" height="50" alt="logo">
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -62,10 +64,13 @@
                             <a class="nav-link" href="all_Users.php">All User</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.php">Log In</a>
+                            <a class="nav-link" href="login.php">LogIn</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="index.php?LogoutMsg=Log Out Successfully">Log Out</a>
+                            <a class="nav-link" href="index.php?LogoutMsg=Log Out Successfully">LogOut</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="aboutUs.php">AboutUs</a>
                         </li>
                     </ul>
                 </div>
@@ -73,3 +78,4 @@
         </header>
         <!-- For space in order to show content after fix header -->
         <div class="spacer"></div>
+    <main>

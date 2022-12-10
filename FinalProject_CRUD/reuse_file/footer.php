@@ -22,5 +22,6 @@
     <!-- Copyright -->
 </footer>
 <!-- Footer -->
+        </main>
 	</body>
 </html>

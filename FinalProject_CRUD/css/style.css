@@ -30,7 +30,7 @@ h6,
 Header
 */
 .spacer {
-    margin-top: 56px;
+    margin-top: 76px;
 }
 
 /*
@@ -238,4 +238,21 @@ personal page section
             linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
             linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
     padding: 10vh;
+}
+
+/*
+About Us Section
+*/
+.aboutUs-section {
+    background: #333;
+    padding: 10vh;
+    color: #fff;
+}
+
+.aboutUs-section > div {
+    margin: 10vw;
+}
+
+.aboutUs-section > div > h1 + p {
+    width: 30vw;
 }
