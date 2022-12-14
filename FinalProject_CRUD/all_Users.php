@@ -1,7 +1,7 @@
 <?php session_start();
 	// add values of variables of title and description
-	$title = "A base profile homepage";
-	$description = "Assignment 3 index page";
+	$title = "A base all user homepage";
+	$description = "All users page";
 
 	require_once './reuse_file/header.php';
 	require_once './reuse_file/Database.php';
