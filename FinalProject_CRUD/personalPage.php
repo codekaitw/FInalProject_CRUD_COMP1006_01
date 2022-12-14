@@ -44,6 +44,7 @@
 
     // update: edit message
     if (isset($_POST['edit_msg_text']) && isset($_POST['edit_message_id'])) {
+        var_dump($_POST['edit_msg_text']);
         $edit_msgData = array(
             'message_text' => $_POST['edit_msg_text'],
             'modified' => '',
@@ -143,12 +144,13 @@
                                             <div class="form-group">
                                                 <label for="msgTextArea">What do you think now</label><textarea class="form-control" id="msgTextArea" rows="3" placeholder="Add something new here..." name="msg_text"></textarea>
                                             </div>
-                                        </form>
+
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button class="btn btn-primary" type="submit" value="postMsg" name="Submit" onclick="post_msg_text()">Post</button>
-                                    </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button class="btn btn-primary" type="submit" value="postMsg" name="Submit" onclick="post_msg_text()">Post</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -196,7 +198,9 @@
                                                 if($_SESSION['user_id'] !== $_SESSION['currentUserPage']){
                                                     echo " href='personalPage.php?otherUserId=" . $_SESSION['currentUserPage'] ."&editMsg=No authority to edit'>";
                                                 } else{
-                                                    echo 'data-toggle="modal" data-target="#EditMessageModal">';
+                                                    echo 'data-toggle="modal" data-target="#EditMessageModal';
+                                                    echo $value['message_id'];
+                                                    echo '">';
                                                 }
                                             ?>Edit</a>
                                             <a class="dropdown-item"
@@ -218,7 +222,7 @@
                                             ?>Delete</a>
                                         </div>
                                         <!-- Edit Message modal Pop Up-->
-                                        <div class="modal fade" id="EditMessageModal" tabindex="-1" role="dialog" aria-labelledby="EditMessageModal" aria-hidden="true">
+                                        <div class="modal fade" id=<?php echo "EditMessageModal" . $value['message_id']; ?> tabindex="-1" role="dialog" aria-labelledby=<?php echo "EditMessageModal" . $value['message_id']; ?> aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -229,17 +233,18 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <form action="personalPage.php" method="post" class="form-group" id="edit_msg_form">
-                                                            <!-- Hidden message id -->
-                                                            <input type="hidden" name="edit_message_id" value="<?php echo $value['message_id']; ?>">
                                                             <div class="form-group">
+                                                                <!-- Hidden message id -->
+                                                                <input type="hidden" name="edit_message_id" value="<?php echo $value['message_id']; ?>">
                                                                 <label for="edit_msgTextArea">What do you think now</label><textarea class="form-control" id="edit_msgTextArea" rows="3" name="edit_msg_text"><?php echo $value['message_text']; ?></textarea>
                                                             </div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                        <button class="btn btn-primary" type="submit" value="editMsg" name="Submit" onclick="edit_msg_text()">Edit</button>
-                                                    </div>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <button class="btn btn-primary" type="submit" value="editMsg" name="Submit" onclick="edit_msg_text()">Edit</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
