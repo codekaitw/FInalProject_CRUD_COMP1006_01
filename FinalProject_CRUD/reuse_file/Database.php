@@ -33,9 +33,11 @@ class Database
 			// prepare query
 			$stmt = $this->db->prepare($sql);
 
-			// encryption password
-			$encryptPassword = hash('sha512', $data['password']);
-			$data['password'] = $encryptPassword;
+			if(array_key_exists('password', $data)) {
+				// encryption password
+				$encryptPassword = hash('sha512', $data['password']);
+				$data['password'] = $encryptPassword;
+			}
 			foreach ($data as $key => $val){
 				$stmt->bindValue(':' . $key, $val);
 			}
@@ -142,9 +144,11 @@ class Database
 			$sql .= $tableName;
 			$sql .= ' SET ';
 
-			// encrypt password
-			$encryptPassword = hash('sha512', $data['password']);
-			$data['password'] = $encryptPassword;
+			if(array_key_exists('password', $data)) {
+				// encrypt password
+				$encryptPassword = hash('sha512', $data['password']);
+				$data['password'] = $encryptPassword;
+			}
 			// using named placeholder
 			$set = [];       // store named placeholder query (columns)
 			$setId = '';     // store named placeholder query (id) >>> where

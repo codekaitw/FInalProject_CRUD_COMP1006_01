@@ -93,11 +93,11 @@
 	    echo '<div class="alert alert-info m-auto text-center" role="alert">';
 	    echo $_GET['insertMsg'];
 	    echo '</div>';
-    }elseif(isset($_GET['editMsg']) && isset($_GET['otherUserId'])){
+    }elseif(isset($_GET['editMsg'])){
 	    echo '<div class="alert alert-info m-auto text-center" role="alert">';
 	    echo $_GET['editMsg'];
 	    echo '</div>';
-    }elseif(isset($_GET['deleteMsg']) && isset($_GET['otherUserId'])){
+    }elseif(isset($_GET['deleteMsg'])){
 	    echo '<div class="alert alert-info m-auto text-center" role="alert">';
 	    echo $_GET['deleteMsg'];
 	    echo '</div>';
