@@ -15,14 +15,12 @@
         $table_admins = 'users';
 
         // store info to variable
-	    // encryption password
-        $encryptPassword = hash('sha512', $_POST['signup_password']);
         $signUpData = array(
             'username' => $_POST['signup_username'],
-            'password' => $encryptPassword,
+            'password' => $_POST['signup_password'],
             'email'    => $_POST['signup_email']
         );
-        $confirmPassword = hash('sha512', $_POST['signup_confirmPassword']);
+        $confirmPassword = $_POST['signup_confirmPassword'];
 
         // check input whether error
         $signupInputIsValid =  $db->inputErrorCheck_SignupUpdateData($signUpData, $confirmPassword);

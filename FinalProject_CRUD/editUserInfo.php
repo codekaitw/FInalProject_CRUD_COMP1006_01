@@ -25,15 +25,13 @@ if(isset($_POST['update']) && $_POST['update'] == 'Update'){
 	}
 
 	// store info to variable
-	// encryption password
-	$encryptPassword = hash('sha512', $_POST['update_password']);
 	$updateData = array(
 		'username' => $_POST['update_username'],
-		'password' => $encryptPassword,
+		'password' => $_POST['update_password'],
 		'email'    => $_POST['update_email'],
         'user_id'  => $_POST['update_user_id']
 	);
-	$confirmPassword = hash('sha512', $_POST['update_confirmPassword']);
+	$confirmPassword = $_POST['update_confirmPassword'];
 	$updateUserId = $_POST['update_user_id'];
 	// check input whether error
 	$updateUserInputIsValid =  $db->inputErrorCheck_SignupUpdateData($updateData, $confirmPassword);

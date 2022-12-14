@@ -32,6 +32,10 @@ class Database
 			$sql = "INSERT INTO $tableName ( $columns ) VALUES ( $values )";
 			// prepare query
 			$stmt = $this->db->prepare($sql);
+
+			// encryption password
+			$encryptPassword = hash('sha512', $data['password']);
+			$data['password'] = $encryptPassword;
 			foreach ($data as $key => $val){
 				$stmt->bindValue(':' . $key, $val);
 			}
@@ -138,6 +142,9 @@ class Database
 			$sql .= $tableName;
 			$sql .= ' SET ';
 
+			// encrypt password
+			$encryptPassword = hash('sha512', $data['password']);
+			$data['password'] = $encryptPassword;
 			// using named placeholder
 			$set = [];       // store named placeholder query (columns)
 			$setId = '';     // store named placeholder query (id) >>> where
@@ -210,7 +217,9 @@ class Database
 		// query: find to check username
 		// Add . "'" is in order to avoid special character or space
 		$sql .= ' WHERE `username` = ' . "'" . $data['username'] . "'";
-		$sql .= ' AND `user_id` != ' . $conditions['updateUser'];
+		if(array_key_exists('updateUser', $conditions)) {
+			$sql .= ' AND `user_id` != ' . $conditions['updateUser'];
+		}
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
 		// update check duplicate username
@@ -222,7 +231,9 @@ class Database
 		// Add . "'" is in order to avoid special character or space
 		$sql = 'SELECT * FROM ' . $tableName;
 		$sql .= " WHERE `email` = '" . $data['email'] . "'";
-		$sql .= ' AND `user_id` != ' . $conditions['updateUser'];
+		if(array_key_exists('updateUser', $conditions)) {
+			$sql .= ' AND `user_id` != ' . $conditions['updateUser'];
+		}
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
 		// duplicate email
