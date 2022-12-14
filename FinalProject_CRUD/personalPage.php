@@ -290,7 +290,7 @@
                             // close php here in order to foreach(travel) these codes below
                             // Note: the start and close position will affect the CSS
                             ?>
-                            <div class="container d-flex flex-column list-group">
+                            <div class="container d-flex flex-column list-group mt-2 mb-3">
                                 <div class="container list-group-item">
                                     <a class="d-flex flex-wrap" href="<?php echo "personalPage.php?otherUserId=" . $value['user_id'] ?>">
                                         <img class="rounded-circle" width="40
