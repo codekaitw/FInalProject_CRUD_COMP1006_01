@@ -1,4 +1,6 @@
 <?php
+    $title = "About us page";
+    $description = "About us page";
 	require_once './reuse_file/header.php';
 ?>
 <!-- about us section -->
