@@ -11,8 +11,6 @@
         set_error_handler(array($errorObj, $errorFunctionName)
         );
     }
-    $title='Default';
-    $description='Default';
 ?>
 <!doctype html>
 <html lang="en">
