@@ -30,28 +30,29 @@ if(isset($_POST['update']) && $_POST['update'] == 'Update'){
 	$updateData = array(
 		'username' => $_POST['update_username'],
 		'password' => $encryptPassword,
-		'email'    => $_POST['update_email']
+		'email'    => $_POST['update_email'],
+        'user_id'  => $_POST['update_user_id']
 	);
 	$confirmPassword = hash('sha512', $_POST['update_confirmPassword']);
-
+	$updateUserId = $_POST['update_user_id'];
 	// check input whether error
 	$updateUserInputIsValid =  $db->inputErrorCheck_SignupUpdateData($updateData, $confirmPassword);
 	if(is_bool($updateUserInputIsValid) && $updateUserInputIsValid){
 		// check username and email are unique in database except current user info
-        $conditions = array('updateUser' => '');
+        $conditions = array('updateUser' => $updateUserId);
 		$updateUserDataIsUnique = $db->checkSignupUpdateDataValid($table_admins, $updateData, $conditions);
 
 		if(is_bool($updateUserDataIsUnique) && $updateUserDataIsUnique){
 			// update data
             $updateUserColumn = 'user_id';
 			$update = $db->updateData($table_admins, $updateData, $updateUserColumn);
-			$update ? header("Location:editUserInfo.php?updateMsg=Updated Successfully") :
-				header("Location: editUserInfo.php?updateMsg=Not Updated Successfully");
+			$update ? header("Location:all_Users.php?updateMsg=Updated Successfully") :
+				header("Location: editUserInfo.php?UpdateUserId=$updateUserId&updateMsg=Not Updated Successfully");
 		} elseif (is_string($updateUserDataIsUnique)){
-			header("Location:editUserInfo.php?updateMsg=$updateUserDataIsUnique");
+			header("Location:editUserInfo.php?UpdateUserId=$updateUserId&updateMsg=$updateUserDataIsUnique");
 		}
 	}elseif(is_string($updateUserInputIsValid)){
-		header("Location:editUserInfo.php?updateMsg=$updateUserInputIsValid");
+		header("Location:editUserInfo.php?UpdateUserId=$updateUserId&updateMsg=$updateUserInputIsValid");
 	}
 }
 
@@ -72,6 +73,8 @@ if(isset($_POST['update']) && $_POST['update'] == 'Update'){
 			</div>
 			<div class="card-body">
 				<form action="editUserInfo.php?UpdateUserId=<?php echo $userInfo['user_id']; ?>" method="post">
+                    <!-- Hidden user id -->
+                    <input type="hidden" name="update_user_id" value="<?php echo $userInfo['user_id']; ?>">
 					<div class="input-group form-group mb-4">
 						<input type="text" class="form-control" placeholder="username" name="update_username" value="<?php echo $userInfo['username']; ?>">
 					</div>

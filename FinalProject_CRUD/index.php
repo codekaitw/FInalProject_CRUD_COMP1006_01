@@ -8,7 +8,6 @@
 
     require_once './reuse_file/header.php';
 	require_once './reuse_file/Database.php';
-
 ?>
 	<section id="home-start">
 		<?php

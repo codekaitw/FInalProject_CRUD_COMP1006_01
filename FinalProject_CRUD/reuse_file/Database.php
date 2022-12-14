@@ -199,6 +199,7 @@ class Database
 			}
 			return true;
 		}
+		return false;
 	}
 
 	// check input signup data whether exits in database
@@ -209,13 +210,11 @@ class Database
 		// query: find to check username
 		// Add . "'" is in order to avoid special character or space
 		$sql .= ' WHERE `username` = ' . "'" . $data['username'] . "'";
+		$sql .= ' AND `user_id` != ' . $conditions['updateUser'];
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
-		// update check
-		if(array_key_exists('updateUser', $conditions) && $stmt->rowCount() == 1){
-			return true;
-		// duplicate username
-		}elseif($stmt->rowCount() > 0){
+		// update check duplicate username
+		if(array_key_exists('updateUser', $conditions) && $stmt->rowCount() > 0){
 			return 'Username is not available! Try another one!';
 		}
 
@@ -223,10 +222,11 @@ class Database
 		// Add . "'" is in order to avoid special character or space
 		$sql = 'SELECT * FROM ' . $tableName;
 		$sql .= " WHERE `email` = '" . $data['email'] . "'";
+		$sql .= ' AND `user_id` != ' . $conditions['updateUser'];
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
 		// duplicate email
-		if($stmt->rowCount() > 0){
+		if(array_key_exists('updateUser', $conditions) && $stmt->rowCount() > 0){
 			return 'Email is not available! Try another one!';
 		}
 		return true;

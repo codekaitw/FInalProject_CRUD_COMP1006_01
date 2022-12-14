@@ -34,19 +34,25 @@
 	    }
     }
 ?>
-<?php
-if(isset($_GET['deletedUserMsg'])){
-	echo '<div class="alert alert-info m-auto text-center" role="alert">';
-	echo $_GET['deletedUserMsg'];
-	echo '</div>';
-}
-?>
 <!-- All Users Name section -->
 <section class="all_user_section">
+	<?php
+	if(isset($_GET['updateMsg'])){
+		echo '<div class="alert alert-danger" role="alert">';
+		echo $_GET['updateMsg'];
+		echo '</div>';
+	}
+	if(isset($_GET['deletedUserMsg'])){
+		echo '<div class="alert alert-info m-auto text-center" role="alert">';
+		echo $_GET['deletedUserMsg'];
+		echo '</div>';
+	}
+	?>
 	<ul class="list-group pt-1">
         <li class="list-group-item list-group-item-danger">
             <div class="d-flex">
                 <p class="m-auto">User Name</p>
+                <p class="m-auto">User Email</p>
                 <a class="btn btn-warning m-1" href="index.php">Home</a>
                 <a class="btn btn-danger m-1" href="index.php?LogoutMsg=Log Out Successfully">Log Out</a>
             </div>
@@ -57,6 +63,7 @@ if(isset($_GET['deletedUserMsg'])){
 		<li class="list-group-item list-group-item-warning mt-1">
 			<div class="d-flex">
 				<p class="m-auto"><?php echo $value['username']; ?></p>
+                <p class="m-auto"><?php echo $value['email']; ?></p>
 				<a class="btn btn-warning m-1" href="editUserInfo.php?UpdateUserId=<?php echo $value['user_id']; ?>">Update</a>
 				<a class="btn btn-danger m-1" href="all_Users.php?DeleteUserId=<?php echo $value['user_id']; ?>">Delete</a>
 			</div>
